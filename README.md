@@ -14,8 +14,6 @@
     - This example will display a simple alert box with "whoomp" inside after pressing the `div` element
 ```HTML
 <div 
-    id="test"
-    style="width: 100px; aspect-ratio: 1; background-color: black; " 
     data-dom-effect='click:alert("whoomp")'
 >
 </div>
@@ -32,8 +30,6 @@
     - **Dom Effects** checks for functions in global scope, so you can easily use them in your `dom effect scripts`
 ```HTML
 <div 
-    id="test"
-    style="width: 100px; aspect-ratio: 1; background-color: black; " 
     data-dom-effect='click:setColor("red")'
 >
 </div>
@@ -58,26 +54,30 @@
     - Events like `hover`, require `reversible effects` (so that the framework knows how to comeback to a state before the event)
     - **TODO:** Make automatic state change reverse
 ```HTML
+
 <div 
-    id="test"
-    style="width: 100px; aspect-ratio: 1; background-color: black; " 
-    data-dom-effect='click:setColor("red")'
+    data-dom-effect='hover:addClass("example-class")'
 >
 </div>
 <script src="./dom-effects.js"></script>
-
 <script>
-    // a function definition requires "params" and "target" parameter
-    // params - array of params defined in the script
-    // target - a target (refernce to dom node) specified in script (defaults to the script owner element)
-    function setColor(params, target) {
-        const [ color ] = params;
-        target.style["color"] = color;
-    }
 
-    DomEffects.init();
+function addClass(params, target) {
+    const [ className ] = params;
+    target.classList.add(className)
+}
+
+function removeClass(params, target) {
+    const [ className ] = params;
+    target.classList.remove(className)
+}
+
+DomEffects.registerReversableEffect(addClass, removeClass);
+
+DomEffects.init();
 </script>
 </html>
+
 
 ```
 
